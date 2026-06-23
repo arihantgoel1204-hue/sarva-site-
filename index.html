@@ -3,94 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarva Strategic Group | Institutional Advisory</title>
+    <title>Sarva Strategic Group | Intelligence & Advisory</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
-            --charcoal: #0F172A;
-            --sapphire: #1D4ED8;
-            --slate: #475569;
-            --light-bg: #F8FAFC;
+            --obsidian: #050505;
+            --slate-dark: #111111;
+            --cobalt: #0055FF;
+            --platinum: #F8FAFC;
+            --gray-text: #94A3B8;
         }
 
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: var(--light-bg);
-            color: var(--charcoal);
+            background-color: var(--obsidian);
+            color: var(--platinum);
             overflow-x: hidden;
-            /* Ultra-professional precision crosshair cursor */
-            cursor: crosshair;
+            cursor: crosshair; 
         }
 
-        /* Interactive Elements styling */
-        button, a, .interactive-node { cursor: pointer; }
+        /* Kinetic Precision Cursor */
+        #cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background-color: var(--cobalt); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 10000;
+        }
+        #cursor-ring {
+            position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+            border: 1px solid rgba(0, 85, 255, 0.5); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+            transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
 
-        /* Sleek Nav */
-        .nav-glass { background: rgba(255, 255, 255, 0.98); border-bottom: 3px solid var(--sapphire); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        /* Navigation */
+        .nav-glass { 
+            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(12px); 
+            border-bottom: 1px solid #1F2937; 
+        }
         
-        /* Smooth Fade */
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Smooth Fade In */
+        .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Typewriter Blinking Cursor */
+        .blinking-cursor::after {
+            content: '|'; animation: blink 1s step-end infinite; color: var(--cobalt);
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Interactive Cards */
+        .elite-card {
+            background-color: var(--slate-dark); border: 1px solid #1F2937;
+            transition: all 0.4s ease;
+        }
+        .elite-card:hover {
+            border-color: var(--cobalt); transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 85, 255, 0.1);
+        }
 
         /* Tab Buttons */
-        .active-subtab { background-color: var(--charcoal); color: white; border-color: var(--charcoal); font-weight: 600; }
-        .inactive-subtab { background-color: white; color: var(--slate); border: 1px solid #CBD5E1; transition: all 0.3s ease; }
-        .inactive-subtab:hover { border-color: var(--sapphire); color: var(--sapphire); }
+        .active-subtab { background-color: var(--cobalt); color: white; border-color: var(--cobalt); font-weight: 700; }
+        .inactive-subtab { background-color: transparent; color: var(--gray-text); border: 1px solid #1F2937; transition: all 0.3s ease; }
+        .inactive-subtab:hover { border-color: var(--cobalt); color: white; }
 
-        /* The Connecting Line in About Section */
-        .timeline-container { position: relative; padding-left: 2.5rem; }
-        .timeline-container::before {
-            content: ''; position: absolute; left: 0.5rem; top: 0.5rem; bottom: 0.5rem;
-            width: 2px; background-color: #E2E8F0;
-        }
-        .timeline-item { position: relative; margin-bottom: 3rem; }
+        /* Timeline in About Section */
+        .timeline-container { position: relative; padding-left: 2rem; border-left: 2px solid #1F2937; }
+        .timeline-item { position: relative; margin-bottom: 4rem; }
         .timeline-item::before {
-            content: ''; position: absolute; left: -2.35rem; top: 0.3rem;
-            width: 14px; height: 14px; background-color: var(--sapphire);
-            border: 3px solid white; border-radius: 50%; box-shadow: 0 0 0 2px var(--sapphire);
+            content: ''; position: absolute; left: -2.45rem; top: 0.3rem;
+            width: 14px; height: 14px; background-color: var(--cobalt);
+            border: 3px solid var(--obsidian); border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 85, 255, 0.6);
         }
 
-        /* Map Nodes for The Project */
-        .map-node { 
-            position: absolute; width: 14px; height: 14px; background-color: var(--charcoal);
-            border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%);
-            transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 10;
+        /* HARDCODED MAP STYLING */
+        .map-container {
+            position: relative; width: 100%; max-width: 450px; aspect-ratio: 4/5;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 600'%3E%3Cpath fill='%23111111' stroke='%231F2937' stroke-width='3' d='M200,50 L250,20 L300,50 L350,150 L450,200 L420,250 L350,280 L300,350 L250,550 L200,550 L150,400 L100,300 L50,250 L80,200 L150,150 Z'/%3E%3C/svg%3E");
+            background-size: contain; background-repeat: no-repeat; background-position: center;
         }
-        .map-node:hover { background-color: var(--sapphire); transform: translate(-50%, -50%) scale(1.6); z-index: 20; }
+
+        .map-node { 
+            position: absolute; width: 12px; height: 12px; background-color: white;
+            border-radius: 50%; transform: translate(-50%, -50%); cursor: none;
+            transition: all 0.3s ease; box-shadow: 0 0 15px rgba(0, 85, 255, 0.8); z-index: 10;
+        }
+        .map-node:hover { background-color: var(--cobalt); transform: translate(-50%, -50%) scale(1.8); z-index: 20; }
         
         .node-pulse {
             position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
-            background-color: var(--sapphire); border-radius: 50%; transform: translate(-50%, -50%);
+            border: 2px solid var(--cobalt); border-radius: 50%; transform: translate(-50%, -50%);
             animation: pulse-ring 2s infinite; z-index: 5;
         }
-        @keyframes pulse-ring { 0% { width: 10px; height: 10px; opacity: 0.8; } 100% { width: 40px; height: 40px; opacity: 0; } }
+        @keyframes pulse-ring { 0% { width: 12px; height: 12px; opacity: 1; } 100% { width: 50px; height: 50px; opacity: 0; } }
 
         .node-label {
-            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-            background: var(--charcoal); color: white; padding: 4px 10px; border-radius: 4px;
-            font-size: 11px; font-weight: 700; letter-spacing: 0.05em; opacity: 0; pointer-events: none; transition: 0.3s;
+            position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
+            background: var(--slate-dark); border: 1px solid var(--cobalt); color: white; 
+            padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; 
+            letter-spacing: 0.1em; text-transform: uppercase; opacity: 0; pointer-events: none; transition: 0.3s;
         }
         .map-node:hover .node-label { opacity: 1; }
     </style>
 </head>
 <body>
 
+    <!-- Kinetic Cursor -->
+    <div id="cursor-ring"></div>
+    <div id="cursor-dot"></div>
+
     <!-- MASTER NAVIGATION -->
     <nav class="nav-glass sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col lg:flex-row justify-between items-center">
-            <div class="text-2xl font-extrabold tracking-tight text-[var(--charcoal)] cursor-pointer flex items-center gap-3" onclick="showMainTab('home')">
-                <div class="w-5 h-5 bg-[var(--sapphire)]"></div>
-                SARVA <span class="font-light text-[var(--slate)]">STRATEGIC</span>
+            <div class="text-2xl font-extrabold tracking-tight text-white cursor-pointer flex items-center gap-3 interactive-element" onclick="showMainTab('home')">
+                <div class="w-4 h-4 bg-[var(--cobalt)]"></div>
+                SARVA STRATEGIC <span class="font-light text-slate-500">GROUP</span>
             </div>
-            <div class="mt-4 lg:mt-0 flex flex-wrap justify-center gap-8 text-xs font-bold text-[var(--slate)] tracking-widest uppercase">
-                <button onclick="showMainTab('home')" class="hover:text-[var(--sapphire)] transition-colors">Home</button>
-                <button onclick="showMainTab('about')" class="hover:text-[var(--sapphire)] transition-colors">About</button>
-                <button onclick="showMainTab('institute')" class="hover:text-[var(--sapphire)] transition-colors">Institute</button>
-                <button onclick="showMainTab('consultancy')" class="hover:text-[var(--sapphire)] transition-colors">Advisory</button>
-                <button onclick="showMainTab('project')" class="text-[var(--sapphire)] hover:text-[var(--charcoal)] transition-colors">Project</button>
-                <button onclick="showMainTab('contact')" class="hover:text-[var(--sapphire)] transition-colors">Contact</button>
+            <div class="mt-4 lg:mt-0 flex flex-wrap justify-center gap-8 text-xs font-bold text-slate-400 tracking-widest uppercase">
+                <button onclick="showMainTab('home')" class="hover:text-white transition-colors interactive-element">Home</button>
+                <button onclick="showMainTab('about')" class="hover:text-white transition-colors interactive-element">About</button>
+                <button onclick="showMainTab('institute')" class="hover:text-white transition-colors interactive-element">Institute</button>
+                <button onclick="showMainTab('consultancy')" class="hover:text-white transition-colors interactive-element">Advisory</button>
+                <button onclick="showMainTab('project')" class="text-[var(--cobalt)] hover:text-white transition-colors interactive-element">Project</button>
+                <button onclick="showMainTab('contact')" class="hover:text-white transition-colors interactive-element">Contact</button>
             </div>
         </div>
     </nav>
@@ -98,34 +135,38 @@
     <main class="max-w-7xl mx-auto px-4 md:px-8 py-16">
 
         <!-- ================= HOME TAB ================= -->
-        <section id="home" class="main-tab fade-in space-y-12">
-            <div class="text-center py-32 bg-[var(--charcoal)] rounded-xl relative overflow-hidden shadow-2xl">
-                <div class="absolute top-0 left-0 w-full h-2 bg-[var(--sapphire)]"></div>
-                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-white relative z-10">Clarity in a Complex World.</h1>
-                <p class="text-lg md:text-xl text-slate-400 font-light max-w-3xl mx-auto px-4 mt-8 leading-relaxed relative z-10">
-                    We synthesize strict constitutional frameworks and macroeconomic variables into decision-ready intelligence for institutional leadership.
+        <section id="home" class="main-tab space-y-16">
+            <div class="text-center py-32 elite-card rounded-xl relative overflow-hidden">
+                <!-- Mathematical Grid Background -->
+                <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#1F2937 1px, transparent 1px), linear-gradient(90deg, #1F2937 1px, transparent 1px); background-size: 40px 40px;"></div>
+                
+                <!-- TYPEWRITER TEXT -->
+                <h1 id="typewriter-text" class="text-5xl md:text-7xl font-extrabold tracking-tighter text-white relative z-10 uppercase blinking-cursor min-h-[80px]"></h1>
+                
+                <p class="text-lg md:text-xl text-[var(--gray-text)] font-light max-w-3xl mx-auto px-4 mt-8 leading-relaxed relative z-10">
+                    Synthesizing strict constitutional mapping and macroeconomic variables into decision-ready intelligence for institutional leadership.
                 </p>
                 <div class="relative z-10 mt-12 flex flex-col sm:flex-row justify-center gap-6">
-                    <button onclick="showMainTab('institute')" class="px-8 py-4 bg-[var(--sapphire)] text-white font-bold tracking-widest uppercase hover:bg-white hover:text-[var(--sapphire)] transition-all shadow-lg rounded-sm">
+                    <button onclick="showMainTab('institute')" class="interactive-element px-8 py-4 bg-[var(--cobalt)] text-white font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-all rounded-sm">
                         Explore Institute
                     </button>
-                    <button onclick="showMainTab('consultancy')" class="px-8 py-4 bg-transparent text-white font-bold border-2 border-white tracking-widest uppercase hover:bg-white hover:text-[var(--charcoal)] transition-colors rounded-sm">
+                    <button onclick="showMainTab('consultancy')" class="interactive-element px-8 py-4 bg-transparent text-white font-bold border border-slate-600 tracking-widest uppercase hover:border-white transition-colors rounded-sm">
                         Corporate Advisory
                     </button>
                 </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="bg-white p-12 rounded-xl shadow-sm border border-slate-200 hover:border-[var(--sapphire)] hover:shadow-xl transition-all cursor-pointer" onclick="showMainTab('institute')">
-                    <h2 class="text-3xl font-bold text-[var(--charcoal)] mb-4 tracking-tight">Sarva Institute</h2>
-                    <p class="text-[var(--slate)] leading-relaxed mb-8 text-lg">Access our open-source repository of rigorous academic papers, structured legal commentaries, and empirical data elevating public discourse.</p>
-                    <span class="text-sm font-bold tracking-widest uppercase text-[var(--sapphire)]">Access Repository &rarr;</span>
+                <div class="elite-card p-12 rounded-xl interactive-element" onclick="showMainTab('institute')">
+                    <h2 class="text-3xl font-bold text-white mb-4 tracking-tight uppercase">Sarva Institute</h2>
+                    <p class="text-[var(--gray-text)] leading-relaxed mb-8 text-lg">Access our open-source repository of rigorous academic papers, structured legal commentaries, and empirical data elevating public discourse.</p>
+                    <span class="text-sm font-bold tracking-widest uppercase text-[var(--cobalt)]">Access Repository &rarr;</span>
                 </div>
                 
-                <div class="bg-white p-12 rounded-xl shadow-sm border border-slate-200 hover:border-[var(--sapphire)] hover:shadow-xl transition-all cursor-pointer" onclick="showMainTab('consultancy')">
-                    <h2 class="text-3xl font-bold text-[var(--charcoal)] mb-4 tracking-tight">Sarva Geoadvisory</h2>
-                    <p class="text-[var(--slate)] leading-relaxed mb-8 text-lg">Partner with us for dedicated commercial risk assessments, supply-chain mapping, and localized political due diligence.</p>
-                    <span class="text-sm font-bold tracking-widest uppercase text-[var(--sapphire)]">View Services &rarr;</span>
+                <div class="elite-card p-12 rounded-xl interactive-element" onclick="showMainTab('consultancy')">
+                    <h2 class="text-3xl font-bold text-white mb-4 tracking-tight uppercase">Sarva Geoadvisory</h2>
+                    <p class="text-[var(--gray-text)] leading-relaxed mb-8 text-lg">Partner with us for dedicated commercial risk assessments, supply-chain mapping, and localized political due diligence.</p>
+                    <span class="text-sm font-bold tracking-widest uppercase text-[var(--cobalt)]">View Services &rarr;</span>
                 </div>
             </div>
         </section>
@@ -133,30 +174,30 @@
         <!-- ================= ABOUT TAB ================= -->
         <section id="about" class="main-tab hidden fade-in space-y-12">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-5xl font-extrabold text-[var(--charcoal)] tracking-tight">About The Firm</h2>
-                <div class="h-1 w-24 bg-[var(--sapphire)] mx-auto mt-6"></div>
+                <h2 class="text-5xl font-extrabold text-white tracking-tight uppercase">About The Firm</h2>
+                <div class="h-1 w-24 bg-[var(--cobalt)] mx-auto mt-6"></div>
             </div>
             
-            <div class="bg-white rounded-xl shadow-lg p-10 md:p-16 border-t-4 border-[var(--charcoal)]">
+            <div class="elite-card rounded-xl p-10 md:p-16">
                 <div class="timeline-container">
                     
                     <div class="timeline-item">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] mb-4 tracking-tight">How We Started</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">
+                        <h3 class="text-3xl font-bold text-white mb-4 tracking-tight uppercase">How We Started</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">
                             Emerging from extensive involvement in structuring high-level parliamentary debating architectures, organizing youth-led institutional outreach, and managing complex academic forums, we recognized a critical gap between theoretical international relations and decision-ready commercial intelligence. This catalyzed our transition into a structured advisory format.
                         </p>
                     </div>
 
                     <div class="timeline-item">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] mb-4 tracking-tight">What We Do</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">
-                            We operate a highly specialized dual-model structure to serve both the public interest and private organizational needs. <strong>The Institute</strong> is our public-facing think tank, dedicated to producing accessible, high-quality academic analyses on domestic governance and international law. <strong>The Geoadvisory</strong> serves as our consultancy arm, offering private clients tailored evaluations of market risks and compliance environments.
+                        <h3 class="text-3xl font-bold text-white mb-4 tracking-tight uppercase">What We Do</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">
+                            We operate a highly specialized dual-model structure to serve both the public interest and private organizational needs. <strong class="text-white">The Institute</strong> is our public-facing think tank, dedicated to producing accessible, high-quality academic analyses on domestic governance and international law. <strong class="text-white">The Geoadvisory</strong> serves as our consultancy arm, offering private clients tailored evaluations of market risks and compliance environments.
                         </p>
                     </div>
 
                     <div class="timeline-item mb-0">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] mb-4 tracking-tight">Our Approach</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">
+                        <h3 class="text-3xl font-bold text-white mb-4 tracking-tight uppercase">Our Approach</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">
                             We treat geopolitical intelligence as a rigorous, intellectually demanding science. Our approach synthesizes primary field data, rigid constitutional legal frameworks, and macroeconomic indicators to generate highly accurate models. We reject speculative assumptions, relying entirely on verifiable legislative mechanisms, demographic data, and active multilateral treaties.
                         </p>
                     </div>
@@ -165,76 +206,56 @@
             </div>
         </section>
 
-        <!-- ================= THE SARVA PROJECT TAB ================= -->
+        <!-- ================= THE SARVA PROJECT TAB (WITH MAP) ================= -->
         <section id="project" class="main-tab hidden fade-in space-y-10">
             <div class="text-center max-w-4xl mx-auto mb-12">
-                <h2 class="text-5xl font-extrabold text-[var(--charcoal)] tracking-tight">The Sarva Project</h2>
-                <p class="text-[var(--sapphire)] font-bold tracking-widest uppercase mt-4 text-sm">Interactive Electoral Mapping</p>
-                <div class="h-1 w-24 bg-[var(--charcoal)] mx-auto mt-6"></div>
-                <p class="text-[var(--slate)] mt-6 leading-relaxed">
-                    An open-source initiative tracking constituency-level delimitation mechanics and administrative transitions. Select a major urban node on the map below to generate a localized strategic dossier.
+                <h2 class="text-5xl font-extrabold text-white tracking-tight uppercase">The Sarva Project</h2>
+                <p class="text-[var(--cobalt)] font-bold tracking-widest uppercase mt-4 text-sm">Interactive Electoral Mapping Engine</p>
+                <div class="h-1 w-24 bg-[var(--slate-dark)] mx-auto mt-6"></div>
+                <p class="text-[var(--gray-text)] mt-6 leading-relaxed">
+                    An open-source intelligence engine tracking constituency-level delimitation mechanics and administrative transitions. Select a major urban node on the terminal map below to generate a localized strategic dossier.
                 </p>
             </div>
 
-            <div class="bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden flex flex-col md:flex-row">
-                <div class="bg-[var(--charcoal)] p-10 md:w-1/3 text-white flex flex-col justify-center">
-                    <h3 class="text-2xl font-bold mb-4 border-b border-slate-700 pb-4">Live Database</h3>
+            <div class="elite-card rounded-xl overflow-hidden flex flex-col md:flex-row border border-slate-800 shadow-2xl">
+                <!-- Info Panel -->
+                <div class="bg-[#020202] p-10 md:w-1/3 flex flex-col justify-center border-r border-slate-800">
+                    <h3 class="text-2xl font-bold mb-4 border-b border-slate-800 pb-4 text-white uppercase tracking-wider">Live Database</h3>
                     <ul class="space-y-6">
                         <li class="flex items-center gap-4">
-                            <div class="w-3 h-3 bg-[var(--sapphire)] rounded-full"></div>
+                            <div class="w-2 h-2 bg-[var(--cobalt)] rounded-full shadow-[0_0_8px_#0055FF]"></div>
                             <div>
-                                <p class="text-xs text-slate-400 uppercase tracking-wider">Active Nodes Tracked</p>
-                                <p class="text-xl font-bold">10 Major Urban Centers</p>
+                                <p class="text-xs text-slate-500 uppercase tracking-wider">Active Nodes Tracked</p>
+                                <p class="text-xl font-bold text-white">10 Major Urban Centers</p>
                             </div>
                         </li>
                         <li class="flex items-center gap-4">
-                            <div class="w-3 h-3 bg-[var(--sapphire)] rounded-full"></div>
+                            <div class="w-2 h-2 bg-[var(--cobalt)] rounded-full shadow-[0_0_8px_#0055FF]"></div>
                             <div>
-                                <p class="text-xs text-slate-400 uppercase tracking-wider">Current Focus</p>
-                                <p class="text-xl font-bold">Delimitation Mechanics</p>
+                                <p class="text-xs text-slate-500 uppercase tracking-wider">Current Focus</p>
+                                <p class="text-xl font-bold text-white">Delimitation Mechanics</p>
                             </div>
                         </li>
                     </ul>
                 </div>
 
-                <!-- GUARANTEED VISIBLE MAP AREA USING A GLOBAL CDN -->
-                <div class="md:w-2/3 bg-[#F1F5F9] p-8 relative flex items-center justify-center min-h-[600px]">
-                    <div class="relative w-full max-w-[450px]">
-                        
-                        <!-- HIGHLY RELIABLE VECTOR MAP OF INDIA FROM JSDELIVR -->
-                        <img src="https://cdn.jsdelivr.net/gh/djaiss/mapsicon@3.3.0/all/in/vector.svg" alt="Map of India" class="w-full h-auto drop-shadow-md opacity-80 border border-slate-300 rounded-xl p-4 bg-white">
-                        
+                <!-- GUARANTEED MAP AREA -->
+                <div class="md:w-2/3 bg-[#0a0a0a] p-8 relative flex items-center justify-center min-h-[600px]">
+                    <!-- Mathematical Grid Overlay -->
+                    <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#1F2937 1px, transparent 1px), linear-gradient(90deg, #1F2937 1px, transparent 1px); background-size: 20px 20px;"></div>
+                    
+                    <div class="map-container interactive-element">
                         <!-- Interactive Nodes -->
-                        <div class="map-node interactive-node" style="top: 32%; left: 33%;" onclick="openConstituency('New Delhi', 'Delhi', 'Urban Legislative Hub', 'High Impact on Simultaneous Polling')">
-                            <div class="node-pulse"></div><span class="node-label">New Delhi</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 55%; left: 16%;" onclick="openConstituency('Mumbai', 'Maharashtra', 'Financial Coastal Zone', 'Crucial for Corporate Risk Shifts')">
-                            <div class="node-pulse"></div><span class="node-label">Mumbai</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 72%; left: 32%;" onclick="openConstituency('Bangalore', 'Karnataka', 'Technology & Cyber Hub', 'Focal Point for Digital Law Mandates')">
-                            <div class="node-pulse"></div><span class="node-label">Bangalore</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 74%; left: 40%;" onclick="openConstituency('Chennai', 'Tamil Nadu', 'Industrial & Trade Center', 'Key Export Logistics Zone')">
-                            <div class="node-pulse"></div><span class="node-label">Chennai</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 48%; left: 68%;" onclick="openConstituency('Kolkata', 'West Bengal', 'Eastern Commercial Hub', 'High Delimitation Sensitivity')">
-                            <div class="node-pulse"></div><span class="node-label">Kolkata</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 58%; left: 37%;" onclick="openConstituency('Hyderabad', 'Telangana', 'IT & Pharma Sector', 'Cross-Border Supply Chain Integrity')">
-                            <div class="node-pulse"></div><span class="node-label">Hyderabad</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 45%; left: 10%;" onclick="openConstituency('Ahmedabad', 'Gujarat', 'Manufacturing Hub', 'Energy Corridor Legislation')">
-                            <div class="node-pulse"></div><span class="node-label">Ahmedabad</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 58%; left: 21%;" onclick="openConstituency('Pune', 'Maharashtra', 'Education & Auto Hub', 'Corporate Expansion Risk Zone')">
-                            <div class="node-pulse"></div><span class="node-label">Pune</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 36%; left: 24%;" onclick="openConstituency('Jaipur', 'Rajasthan', 'Tourism & Heritage Zone', 'State Delimitation Mechanics')">
-                            <div class="node-pulse"></div><span class="node-label">Jaipur</span>
-                        </div>
-                        <div class="map-node interactive-node" style="top: 38%; left: 44%;" onclick="openConstituency('Lucknow', 'Uttar Pradesh', 'Administrative Center', 'Key Anchor for UP Delimitation Scaling')">
-                            <div class="node-pulse"></div><span class="node-label">Lucknow</span>
-                        </div>
+                        <div class="map-node" style="top: 29%; left: 45%;" onclick="openConstituency('New Delhi', 'Delhi', 'Urban Legislative Hub', 'High Impact on Simultaneous Polling')"><div class="node-pulse"></div><span class="node-label">New Delhi</span></div>
+                        <div class="map-node" style="top: 61%; left: 27%;" onclick="openConstituency('Mumbai', 'Maharashtra', 'Financial Coastal Zone', 'Crucial for Corporate Risk Shifts')"><div class="node-pulse"></div><span class="node-label">Mumbai</span></div>
+                        <div class="map-node" style="top: 75%; left: 40%;" onclick="openConstituency('Bangalore', 'Karnataka', 'Technology & Cyber Hub', 'Focal Point for Digital Law Mandates')"><div class="node-pulse"></div><span class="node-label">Bangalore</span></div>
+                        <div class="map-node" style="top: 77%; left: 49%;" onclick="openConstituency('Chennai', 'Tamil Nadu', 'Industrial & Trade Center', 'Key Export Logistics Zone')"><div class="node-pulse"></div><span class="node-label">Chennai</span></div>
+                        <div class="map-node" style="top: 51%; left: 71%;" onclick="openConstituency('Kolkata', 'West Bengal', 'Eastern Commercial Hub', 'High Delimitation Sensitivity')"><div class="node-pulse"></div><span class="node-label">Kolkata</span></div>
+                        <div class="map-node" style="top: 63%; left: 45%;" onclick="openConstituency('Hyderabad', 'Telangana', 'IT & Pharma Sector', 'Cross-Border Supply Chain Integrity')"><div class="node-pulse"></div><span class="node-label">Hyderabad</span></div>
+                        <div class="map-node" style="top: 47%; left: 23%;" onclick="openConstituency('Ahmedabad', 'Gujarat', 'Manufacturing Hub', 'Energy Corridor Legislation')"><div class="node-pulse"></div><span class="node-label">Ahmedabad</span></div>
+                        <div class="map-node" style="top: 63%; left: 30%;" onclick="openConstituency('Pune', 'Maharashtra', 'Education & Auto Hub', 'Corporate Expansion Risk Zone')"><div class="node-pulse"></div><span class="node-label">Pune</span></div>
+                        <div class="map-node" style="top: 36%; left: 36%;" onclick="openConstituency('Jaipur', 'Rajasthan', 'Tourism & Heritage Zone', 'State Delimitation Mechanics')"><div class="node-pulse"></div><span class="node-label">Jaipur</span></div>
+                        <div class="map-node" style="top: 38%; left: 53%;" onclick="openConstituency('Lucknow', 'Uttar Pradesh', 'Administrative Center', 'Key Anchor for UP Delimitation Scaling')"><div class="node-pulse"></div><span class="node-label">Lucknow</span></div>
                     </div>
                 </div>
             </div>
@@ -243,76 +264,81 @@
         <!-- ================= INSTITUTE TAB ================= -->
         <section id="institute" class="main-tab hidden fade-in">
             <div class="mb-12 text-center">
-                <h2 class="text-5xl font-extrabold text-[var(--charcoal)] tracking-tight">Sarva Institute</h2>
-                <p class="text-[var(--sapphire)] font-bold tracking-widest uppercase mt-4 text-sm">Open-Source Intelligence Repository</p>
+                <h2 class="text-5xl font-extrabold text-white tracking-tight uppercase">Sarva Institute</h2>
+                <p class="text-[var(--cobalt)] font-bold tracking-widest uppercase mt-4 text-sm">Open-Source Intelligence Repository</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <!-- Vertical Sub-Tabs -->
                 <div class="lg:col-span-3 flex flex-col gap-3">
-                    <button onclick="showInstTab('inst-papers')" id="btn-inst-papers" class="inst-btn active-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md border border-transparent">Papers</button>
-                    <button onclick="showInstTab('inst-articles')" id="btn-inst-articles" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md">Articles</button>
-                    <button onclick="showInstTab('inst-commentaries')" id="btn-inst-commentaries" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md">Commentaries</button>
-                    <button onclick="showInstTab('inst-blogs')" id="btn-inst-blogs" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md">Blogs</button>
-                    <button onclick="showInstTab('inst-journals')" id="btn-inst-journals" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md">Journals</button>
-                    <button onclick="showInstTab('inst-info')" id="btn-inst-info" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md">Infographics</button>
+                    <button onclick="showInstTab('inst-papers')" id="btn-inst-papers" class="inst-btn active-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md interactive-element">Papers</button>
+                    <button onclick="showInstTab('inst-articles')" id="btn-inst-articles" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md interactive-element">Articles</button>
+                    <button onclick="showInstTab('inst-commentaries')" id="btn-inst-commentaries" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md interactive-element">Commentaries</button>
+                    <button onclick="showInstTab('inst-blogs')" id="btn-inst-blogs" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md interactive-element">Blogs</button>
+                    <button onclick="showInstTab('inst-journals')" id="btn-inst-journals" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md interactive-element">Journals</button>
+                    <button onclick="showInstTab('inst-info')" id="btn-inst-info" class="inst-btn inactive-subtab text-left px-6 py-4 text-sm font-bold uppercase tracking-wider rounded-md interactive-element">Infographics</button>
                 </div>
 
                 <!-- Content Area -->
-                <div class="lg:col-span-9 bg-white shadow-lg rounded-xl p-10 border-t-4 border-[var(--charcoal)] min-h-[500px]">
+                <div class="lg:col-span-9 elite-card rounded-xl p-10 min-h-[500px]">
                     <div id="inst-papers" class="inst-content fade-in space-y-8">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] border-b border-slate-200 pb-4">Academic Papers (1,500 - 3,000 Words)</h3>
+                        <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-4 uppercase">Academic Papers (1,500 - 3,000 Words)</h3>
                         <div class="space-y-6">
-                            <div class="bg-slate-50 p-8 border border-slate-200 hover:border-[var(--sapphire)] transition-colors rounded-lg">
-                                <span class="text-[var(--sapphire)] text-xs font-bold uppercase tracking-wider block mb-2">Global Security</span>
-                                <h4 class="text-2xl font-bold text-[var(--charcoal)] mb-3">Recurrent Intervention in Governance: The Sahel Crisis</h4>
-                                <p class="text-[var(--slate)] leading-relaxed">An academic framework exploring colonial legacy borders, bureaucratic challenges, and civil-military relations to forecast long-term regional stability.</p>
+                            <div class="bg-[#020202] p-8 border border-slate-800 rounded-lg">
+                                <span class="text-[var(--cobalt)] text-xs font-bold uppercase tracking-wider block mb-2">Global Security</span>
+                                <h4 class="text-2xl font-bold text-white mb-3">Recurrent Intervention in Governance: The Sahel Crisis</h4>
+                                <p class="text-[var(--gray-text)] leading-relaxed">An academic framework exploring colonial legacy borders, bureaucratic challenges, and civil-military relations to forecast long-term regional stability.</p>
+                            </div>
+                            <div class="bg-[#020202] p-8 border border-slate-800 rounded-lg">
+                                <span class="text-[var(--cobalt)] text-xs font-bold uppercase tracking-wider block mb-2">Strategic Affairs</span>
+                                <h4 class="text-2xl font-bold text-white mb-3">India's Soft Power Diplomacy in Active Conflict Zones</h4>
+                                <p class="text-[var(--gray-text)] leading-relaxed">Evaluating systemic macro indicators and regional socio-economic consequences across active international security frameworks.</p>
                             </div>
                         </div>
                     </div>
 
                     <div id="inst-articles" class="inst-content hidden fade-in space-y-8">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] border-b border-slate-200 pb-4">Featured Articles</h3>
-                        <div class="bg-slate-50 p-8 border border-slate-200 rounded-lg hover:border-[var(--sapphire)] transition-colors">
-                            <h4 class="text-2xl font-bold text-[var(--charcoal)] mb-3">The Arms Trade Treaty: Navigating Human Security</h4>
-                            <p class="text-[var(--slate)] leading-relaxed">A focused assessment isolating the broader illicit arms trade (explicitly excluding speculative topics such as ghost guns and 3D-printed weaponry), focusing heavily on structural embargo enforcement and the Convention on the Rights of the Child.</p>
+                        <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-4 uppercase">Featured Articles</h3>
+                        <div class="bg-[#020202] p-8 border border-slate-800 rounded-lg">
+                            <h4 class="text-2xl font-bold text-white mb-3">The Arms Trade Treaty: Navigating Human Security</h4>
+                            <p class="text-[var(--gray-text)] leading-relaxed">A focused assessment isolating the broader illicit arms trade (explicitly excluding speculative topics such as ghost guns and 3D-printed weaponry), focusing heavily on structural embargo enforcement and the Convention on the Rights of the Child.</p>
                         </div>
                     </div>
                     
                     <div id="inst-commentaries" class="inst-content hidden fade-in space-y-8">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] border-b border-slate-200 pb-4">Legal Commentaries</h3>
+                        <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-4 uppercase">Legal Commentaries</h3>
                         <div class="space-y-6">
-                            <div class="bg-slate-50 p-8 border-l-4 border-[var(--charcoal)] rounded-r-lg">
-                                <h4 class="text-xl font-bold text-[var(--charcoal)] mb-2">Electoral Mechanics: Analyzing 'One Nation One Election'</h4>
-                                <p class="text-[var(--slate)]">A rigorous structural analysis breaking down the constitutional mechanics of simultaneous polling and the complex administrative realities of demographic delimitation.</p>
+                            <div class="bg-[#020202] p-8 border-l-4 border-[var(--cobalt)] rounded-r-lg">
+                                <h4 class="text-xl font-bold text-white mb-2">Electoral Mechanics: Analyzing 'One Nation One Election'</h4>
+                                <p class="text-[var(--gray-text)]">A rigorous structural analysis breaking down the constitutional mechanics of simultaneous polling and the complex administrative realities of demographic delimitation.</p>
                             </div>
-                            <div class="bg-slate-50 p-8 border-l-4 border-[var(--charcoal)] rounded-r-lg">
-                                <h4 class="text-xl font-bold text-[var(--charcoal)] mb-2">Clarifying Territory: Sovereignty and Climate Migration</h4>
-                                <p class="text-[var(--slate)]">A strict legal clarification distinguishing between the administrative crisis of internal village relocation and the international legal definitions of sovereign territorial loss.</p>
+                            <div class="bg-[#020202] p-8 border-l-4 border-[var(--cobalt)] rounded-r-lg">
+                                <h4 class="text-xl font-bold text-white mb-2">Clarifying Territory: Sovereignty and Climate Migration</h4>
+                                <p class="text-[var(--gray-text)]">A strict legal clarification distinguishing between the administrative crisis of internal village relocation and the international legal definitions of sovereign territorial loss.</p>
                             </div>
                         </div>
                     </div>
 
                     <div id="inst-blogs" class="inst-content hidden fade-in space-y-8">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] border-b border-slate-200 pb-4">Policy Blogs</h3>
-                        <div class="bg-slate-50 p-8 border border-slate-200 rounded-lg hover:border-[var(--sapphire)] transition-colors">
-                            <h4 class="text-2xl font-bold text-[var(--charcoal)] mb-3">Understanding the 2024 UN Cybercrime Convention</h4>
-                            <p class="text-[var(--slate)] leading-relaxed">An accessible, policy-driven overview of cross-border digital investigations, focusing exclusively on the execution and jurisdictional mechanics of Mutual Legal Assistance Treaties (MLATs) without relying on speculative frameworks like blockchain.</p>
+                        <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-4 uppercase">Policy Blogs</h3>
+                        <div class="bg-[#020202] p-8 border border-slate-800 rounded-lg">
+                            <h4 class="text-2xl font-bold text-white mb-3">Understanding the 2024 UN Cybercrime Convention</h4>
+                            <p class="text-[var(--gray-text)] leading-relaxed">An accessible, policy-driven overview of cross-border digital investigations, focusing exclusively on the execution and jurisdictional mechanics of Mutual Legal Assistance Treaties (MLATs) without relying on speculative frameworks like blockchain.</p>
                         </div>
                     </div>
 
                     <div id="inst-journals" class="inst-content hidden fade-in flex items-center justify-center h-full min-h-[300px]">
-                        <div class="text-center p-12 border-2 border-dashed border-slate-300 rounded-xl">
-                            <p class="text-[var(--slate)] text-lg font-medium">Peer-reviewed, strictly verified journal publications (1,500 - 3,000 words) will be archived here upon external syndication.</p>
+                        <div class="text-center p-12 border border-slate-800 rounded-xl bg-[#020202]">
+                            <p class="text-[var(--gray-text)] text-lg font-medium">Peer-reviewed, strictly verified journal publications (1,500 - 3,000 words) will be archived here upon external syndication.</p>
                         </div>
                     </div>
 
                     <div id="inst-info" class="inst-content hidden fade-in space-y-8">
-                        <h3 class="text-3xl font-bold text-[var(--charcoal)] border-b border-slate-200 pb-4">Visual Data</h3>
-                        <div class="bg-[var(--charcoal)] p-12 text-center rounded-lg shadow-xl">
+                        <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-4 uppercase">Visual Data</h3>
+                        <div class="bg-[var(--cobalt)] p-12 text-center rounded-lg shadow-xl">
                             <h4 class="text-white font-bold text-3xl mb-4">Resource Supervision Demographics</h4>
-                            <p class="text-slate-400 text-lg mb-8">Visual dashboard summarizing empirical findings from regional household surveys to direct local policy formulation.</p>
-                            <button class="bg-[var(--sapphire)] text-white font-bold px-8 py-3 uppercase tracking-wider hover:bg-white hover:text-[var(--sapphire)] transition-colors rounded-sm">View Graphic</button>
+                            <p class="text-blue-100 text-lg mb-8">Visual dashboard summarizing empirical findings from regional household surveys to direct local policy formulation.</p>
+                            <button class="bg-white text-[var(--cobalt)] font-bold px-8 py-3 uppercase tracking-wider rounded-sm shadow-lg">View Graphic</button>
                         </div>
                     </div>
                 </div>
@@ -322,51 +348,51 @@
         <!-- ================= CONSULTANCY TAB ================= -->
         <section id="consultancy" class="main-tab hidden fade-in">
             <div class="mb-12 text-center">
-                <h2 class="text-5xl font-extrabold text-[var(--charcoal)] tracking-tight">Sarva Geoadvisory</h2>
-                <p class="text-[var(--sapphire)] font-bold tracking-widest uppercase mt-4 text-sm">Corporate Risk Services</p>
+                <h2 class="text-5xl font-extrabold text-white tracking-tight uppercase">Sarva Geoadvisory</h2>
+                <p class="text-[var(--cobalt)] font-bold tracking-widest uppercase mt-4 text-sm">Corporate Risk Services</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <!-- Vertical Menu -->
                 <div class="lg:col-span-4 flex flex-col gap-3">
-                    <button onclick="showAdvTab('adv-country')" id="btn-adv-country" class="adv-btn active-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md border border-transparent">Country Risk</button>
-                    <button onclick="showAdvTab('adv-market')" id="btn-adv-market" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md">Market-Entry</button>
-                    <button onclick="showAdvTab('adv-political')" id="btn-adv-political" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md">Due Diligence</button>
-                    <button onclick="showAdvTab('adv-supply')" id="btn-adv-supply" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md">Supply-Chain</button>
-                    <button onclick="showAdvTab('adv-reg')" id="btn-adv-reg" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md">Regulatory Analysis</button>
-                    <button onclick="showAdvTab('adv-exec')" id="btn-adv-exec" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md">Executive Briefings</button>
-                    <button onclick="showAdvTab('adv-crisis')" id="btn-adv-crisis" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md">Crisis Monitoring</button>
+                    <button onclick="showAdvTab('adv-country')" id="btn-adv-country" class="adv-btn active-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Country Risk</button>
+                    <button onclick="showAdvTab('adv-market')" id="btn-adv-market" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Market-Entry</button>
+                    <button onclick="showAdvTab('adv-political')" id="btn-adv-political" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Due Diligence</button>
+                    <button onclick="showAdvTab('adv-supply')" id="btn-adv-supply" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Supply-Chain</button>
+                    <button onclick="showAdvTab('adv-reg')" id="btn-adv-reg" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Regulatory Analysis</button>
+                    <button onclick="showAdvTab('adv-exec')" id="btn-adv-exec" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Executive Briefings</button>
+                    <button onclick="showAdvTab('adv-crisis')" id="btn-adv-crisis" class="adv-btn inactive-subtab text-left px-6 py-5 text-sm font-bold tracking-wide uppercase rounded-md interactive-element">Crisis Monitoring</button>
                 </div>
 
                 <!-- Detail Panel -->
-                <div class="lg:col-span-8 bg-white shadow-lg rounded-xl p-12 border-t-4 border-[var(--sapphire)]">
+                <div class="lg:col-span-8 elite-card rounded-xl p-12">
                     <div id="adv-country" class="adv-content fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Country Risk Assessments</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed mb-6">Before an organization commits to a new region, understanding the macro-environment is essential. We provide comprehensive evaluations of a target nation's political stability, economic health, and social dynamics, built on verifiable public data.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Country Risk Assessments</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed mb-6">Before an organization commits to a new region, understanding the macro-environment is essential. We provide comprehensive evaluations of a target nation's political stability, economic health, and social dynamics, built on verifiable public data.</p>
                     </div>
                     <div id="adv-market" class="adv-content hidden fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Market-Entry Risk Analysis</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">Expanding into new jurisdictions requires careful navigation. We utilize structured PESTEL analysis to map out specific barriers to entry, bureaucratic hurdles, and local competitive advantages.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Market-Entry Risk Analysis</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">Expanding into new jurisdictions requires careful navigation. We utilize structured PESTEL analysis to map out specific barriers to entry, bureaucratic hurdles, and local competitive advantages.</p>
                     </div>
                     <div id="adv-political" class="adv-content hidden fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Political Due Diligence</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">We monitor upcoming electoral cycles, policy transitions, and proposed administrative reforms to safeguard your institutional capital against sudden regulatory volatility.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Political Due Diligence</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">We monitor upcoming electoral cycles, policy transitions, and proposed administrative reforms to safeguard your institutional capital against sudden regulatory volatility.</p>
                     </div>
                     <div id="adv-supply" class="adv-content hidden fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Supply-Chain Risk Mapping</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">Global trade networks are increasingly exposed to geopolitical friction. We analyze cross-border vulnerabilities, identifying points where political disputes could disrupt operations.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Supply-Chain Risk Mapping</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">Global trade networks are increasingly exposed to geopolitical friction. We analyze cross-border vulnerabilities, identifying points where political disputes could disrupt operations.</p>
                     </div>
                     <div id="adv-reg" class="adv-content hidden fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Regulatory & Sanctions Analysis</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">Operating internationally means navigating a complex web of treaties and embargoes. We clarify multilateral frameworks and evolving UN mandates to ensure operational compliance.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Regulatory & Sanctions Analysis</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">Operating internationally means navigating a complex web of treaties and embargoes. We clarify multilateral frameworks and evolving UN mandates to ensure operational compliance.</p>
                     </div>
                     <div id="adv-exec" class="adv-content hidden fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Executive Briefings</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">We distill complex geopolitical events into concise, actionable executive summaries highlighting immediate relevance to your specific strategic goals.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Executive Briefings</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">We distill complex geopolitical events into concise, actionable executive summaries highlighting immediate relevance to your specific strategic goals.</p>
                     </div>
                     <div id="adv-crisis" class="adv-content hidden fade-in">
-                        <h3 class="text-4xl font-bold text-[var(--charcoal)] mb-6 tracking-tight">Crisis Monitoring</h3>
-                        <p class="text-[var(--slate)] text-lg leading-relaxed">When regional stability deteriorates, real-time understanding is critical. We provide ongoing observation of active conflict zones, filtering unverified noise to deliver reliable updates.</p>
+                        <h3 class="text-4xl font-bold text-white mb-6 tracking-tight uppercase">Crisis Monitoring</h3>
+                        <p class="text-[var(--gray-text)] text-lg leading-relaxed">When regional stability deteriorates, real-time understanding is critical. We provide ongoing observation of active conflict zones, filtering unverified noise to deliver reliable updates.</p>
                     </div>
                 </div>
             </div>
@@ -375,27 +401,26 @@
         <!-- ================= CONTACT TAB ================= -->
         <section id="contact" class="main-tab hidden fade-in space-y-12">
             <div class="text-center mb-16">
-                <h2 class="text-5xl font-extrabold text-[var(--charcoal)] tracking-tight">Communications</h2>
-                <div class="h-1 w-24 bg-[var(--sapphire)] mx-auto mt-6"></div>
+                <h2 class="text-5xl font-extrabold text-white tracking-tight uppercase">Communications</h2>
+                <div class="h-1 w-24 bg-[var(--cobalt)] mx-auto mt-6"></div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                <div class="bg-white p-12 text-center rounded-xl shadow-lg border-t-4 border-[var(--charcoal)]">
-                    <h3 class="text-3xl font-bold text-[var(--charcoal)] mb-4">The Institute</h3>
-                    <p class="text-[var(--slate)] text-lg mb-8 leading-relaxed">For academic collaborations, open-source research queries, and publication syndication.</p>
+                <div class="elite-card p-12 text-center rounded-xl">
+                    <h3 class="text-3xl font-bold text-white mb-4 uppercase">The Institute</h3>
+                    <p class="text-[var(--gray-text)] text-lg mb-8 leading-relaxed">For academic collaborations, open-source research queries, and publication syndication.</p>
                     
-                    <!-- BULLETPROOF MAILTO / CLIPBOARD FALLBACK -->
-                    <a href="mailto:sarvastrategicgroup@gmail.com" onclick="copyFallback(event)" class="inline-block w-full bg-transparent text-[var(--charcoal)] border-2 border-[var(--charcoal)] hover:bg-[var(--charcoal)] hover:text-white font-bold uppercase tracking-widest px-8 py-4 transition-colors rounded-sm">
+                    <a href="mailto:sarvastrategicgroup@gmail.com" onclick="copyFallback(event)" class="interactive-element inline-block w-full bg-transparent text-white border border-slate-600 hover:border-white font-bold uppercase tracking-widest px-8 py-4 transition-colors rounded-sm">
                         Email Institute
                     </a>
-                    <p id="copy-msg" class="text-sm text-[var(--sapphire)] font-bold mt-4 opacity-0 transition-opacity duration-300">✓ Securely copied to clipboard.</p>
+                    <p id="copy-msg" class="text-sm text-[var(--cobalt)] font-bold mt-4 opacity-0 transition-opacity duration-300">✓ Securely copied to clipboard.</p>
                 </div>
 
-                <div class="bg-[var(--charcoal)] p-12 text-center rounded-xl shadow-lg border-t-4 border-[var(--sapphire)]">
-                    <h3 class="text-3xl font-bold text-white mb-4">The Geoadvisory</h3>
-                    <p class="text-slate-300 text-lg mb-8 leading-relaxed">For corporate risk assessments, commissioned mandates, and private commercial intelligence.</p>
+                <div class="elite-card p-12 text-center rounded-xl border-t-4 border-[var(--cobalt)]">
+                    <h3 class="text-3xl font-bold text-white mb-4 uppercase">The Geoadvisory</h3>
+                    <p class="text-[var(--gray-text)] text-lg mb-8 leading-relaxed">For corporate risk assessments, commissioned mandates, and private commercial intelligence.</p>
                     
-                    <button onclick="openAdvisoryForm()" class="w-full bg-[var(--sapphire)] text-white hover:bg-white hover:text-[var(--sapphire)] font-bold uppercase tracking-widest px-8 py-4 transition-colors rounded-sm border border-transparent">
+                    <button onclick="openAdvisoryForm()" class="interactive-element w-full bg-[var(--cobalt)] text-white hover:bg-white hover:text-black font-bold uppercase tracking-widest px-8 py-4 transition-colors rounded-sm border border-transparent">
                         Open Inquiry Form
                     </button>
                 </div>
@@ -404,14 +429,46 @@
 
     </main>
 
-    <footer class="border-t border-slate-200 py-12 text-sm mt-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-[var(--slate)] font-semibold tracking-wide">
+    <footer class="border-t border-slate-800 py-12 text-sm mt-24 bg-[var(--obsidian)]">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-slate-600 font-semibold tracking-wide">
             <p>&copy; 2026 Sarva Strategic Group.</p>
             <p class="mt-4 md:mt-0 uppercase tracking-widest">sarvastrategicgroup@gmail.com</p>
         </div>
     </footer>
 
     <script>
+        // TYPEWRITER EFFECT ON LOAD
+        const textToType = "SARVA STRATEGIC GROUP";
+        let typeIndex = 0;
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                document.getElementById("typewriter-text").innerHTML += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, 80);
+            }
+        }
+        window.onload = typeWriter;
+
+        // KINETIC CURSOR
+        const cursorRing = document.getElementById('cursor-ring');
+        const cursorDot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px'; cursorDot.style.top = e.clientY + 'px';
+            setTimeout(() => { cursorRing.style.left = e.clientX + 'px'; cursorRing.style.top = e.clientY + 'px'; }, 50);
+        });
+
+        const interactives = document.querySelectorAll('.interactive-element, a, button, .interactive-node');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.width = '48px'; cursorRing.style.height = '48px';
+                cursorRing.style.borderColor = 'rgba(255,255,255,0.8)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.width = '32px'; cursorRing.style.height = '32px';
+                cursorRing.style.borderColor = 'rgba(0, 85, 255, 0.5)';
+            });
+        });
+
         function showMainTab(tabName) {
             document.querySelectorAll('.main-tab').forEach(tab => tab.classList.add('hidden'));
             document.getElementById(tabName).classList.remove('hidden');
@@ -438,15 +495,12 @@
             activeBtn.classList.remove('inactive-subtab'); activeBtn.classList.add('active-subtab');
         }
 
-        // Email Failsafe
         function copyFallback(event) {
             navigator.clipboard.writeText("sarvastrategicgroup@gmail.com");
             const msg = document.getElementById('copy-msg');
-            msg.style.opacity = '1';
-            setTimeout(() => { msg.style.opacity = '0'; }, 4000);
+            msg.style.opacity = '1'; setTimeout(() => { msg.style.opacity = '0'; }, 4000);
         }
 
-        // Generate Dossier
         function openConstituency(name, state, focus, delimitation) {
             const docHTML = `
             <!DOCTYPE html>
@@ -454,28 +508,28 @@
             <head>
                 <title>Sarva Project | ${name} Dossier</title>
                 <script src="https://cdn.tailwindcss.com"><\/script>
-                <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap'); body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #0F172A; }</style>
+                <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap'); body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }</style>
             </head>
             <body class="p-10">
-                <div class="max-w-4xl mx-auto bg-white p-12 rounded-xl shadow-xl border-t-8 border-[#1D4ED8]">
-                    <div class="flex justify-between items-start border-b-2 border-slate-200 pb-6 mb-8">
+                <div class="max-w-4xl mx-auto bg-[#111111] p-12 rounded-xl shadow-2xl border border-slate-800 border-t-8 border-t-[#0055FF]">
+                    <div class="flex justify-between items-start border-b border-slate-800 pb-6 mb-8">
                         <div>
-                            <p class="text-sm font-bold text-[#1D4ED8] tracking-widest uppercase mb-1">Electoral Intelligence Dossier</p>
+                            <p class="text-sm font-bold text-[#0055FF] tracking-widest uppercase mb-1">Electoral Intelligence Dossier</p>
                             <h1 class="text-5xl font-extrabold uppercase">${name}</h1>
-                            <p class="text-xl text-slate-500 mt-2 font-semibold">${state}, India</p>
+                            <p class="text-xl text-slate-400 mt-2 font-semibold">${state}, India</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-xs font-bold text-slate-400 tracking-widest uppercase">Classification</p>
-                            <p class="font-bold text-[#0F172A] border border-[#0F172A] px-3 py-1 inline-block mt-1">OPEN-SOURCE</p>
+                            <p class="text-xs font-bold text-slate-500 tracking-widest uppercase">Classification</p>
+                            <p class="font-bold text-white border border-slate-700 px-3 py-1 inline-block mt-1 bg-[#020202]">OPEN-SOURCE</p>
                         </div>
                     </div>
-                    <div class="bg-slate-50 p-6 rounded-md border border-slate-200 mb-10">
+                    <div class="bg-[#020202] p-6 rounded-md border border-slate-800 mb-10">
                         <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Constituency Typology</h3>
-                        <p class="text-xl font-bold text-[#0F172A]">${focus}</p>
+                        <p class="text-xl font-bold text-white">${focus}</p>
                     </div>
                     <div class="mb-10">
-                        <h3 class="text-2xl font-bold text-[#0F172A] mb-4 flex items-center gap-2"><div class="w-4 h-4 bg-[#1D4ED8]"></div>Delimitation & Structural Impact</h3>
-                        <p class="text-slate-600 text-lg leading-relaxed p-6 bg-slate-50 border-l-4 border-[#0F172A]">${delimitation}. Under proposed realignment frameworks, this region requires continuous tracking.</p>
+                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><div class="w-4 h-4 bg-[#0055FF]"></div>Delimitation & Structural Impact</h3>
+                        <p class="text-slate-400 text-lg leading-relaxed p-6 bg-[#020202] border-l-4 border-slate-700">${delimitation}. Under proposed realignment frameworks, this region requires continuous tracking.</p>
                     </div>
                 </div>
             </body>
@@ -484,7 +538,7 @@
             newWindow.document.write(docHTML); newWindow.document.close();
         }
 
-        // Intake Form
+        // Intake Form Redesigned to Exact Specifications
         function openAdvisoryForm() {
             const formHTML = `
             <!DOCTYPE html>
@@ -492,16 +546,20 @@
             <head>
                 <title>Geoadvisory | Intake Form</title>
                 <script src="https://cdn.tailwindcss.com"><\/script>
-                <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap'); body { font-family: 'Inter', sans-serif; background-color: #0F172A; color: white; }</style>
+                <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap'); body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }</style>
             </head>
             <body class="flex items-center justify-center min-h-screen p-6">
-                <div class="bg-white text-[#0F172A] p-12 rounded-xl shadow-2xl w-full max-w-2xl border-t-8 border-[#1D4ED8]">
-                    <h2 class="text-3xl font-extrabold uppercase mb-2">Mandate Inquiry</h2>
+                <div class="bg-[#111111] text-white p-12 rounded-xl shadow-2xl w-full max-w-2xl border border-slate-800 border-t-8 border-t-[#0055FF]">
+                    <h2 class="text-3xl font-extrabold uppercase mb-2">Inquiry for Advisory</h2>
                     <form action="mailto:sarvastrategicgroup@gmail.com?subject=Geoadvisory Inquiry" method="POST" enctype="text/plain" class="space-y-6 mt-8">
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Organization</label><input type="text" name="Name" required class="w-full bg-slate-50 border border-slate-300 p-3 outline-none focus:border-[#1D4ED8]"></div>
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Email</label><input type="email" name="Email" required class="w-full bg-slate-50 border border-slate-300 p-3 outline-none focus:border-[#1D4ED8]"></div>
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Mandate</label><textarea name="Message" rows="5" required class="w-full bg-slate-50 border border-slate-300 p-3 outline-none focus:border-[#1D4ED8]"></textarea></div>
-                        <button type="submit" class="w-full bg-[#0F172A] hover:bg-[#1D4ED8] text-white font-bold uppercase py-4 mt-4 transition-colors">Submit Inquiry</button>
+                        <div><label class="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Name</label><input type="text" name="Name" required class="w-full bg-[#020202] border border-slate-800 text-white p-3 outline-none focus:border-[#0055FF] transition-colors"></div>
+                        <div><label class="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Organization</label><input type="text" name="Organization" required class="w-full bg-[#020202] border border-slate-800 text-white p-3 outline-none focus:border-[#0055FF] transition-colors"></div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div><label class="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Email</label><input type="email" name="Email" required class="w-full bg-[#020202] border border-slate-800 text-white p-3 outline-none focus:border-[#0055FF] transition-colors"></div>
+                            <div><label class="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Contact</label><input type="text" name="Contact" required class="w-full bg-[#020202] border border-slate-800 text-white p-3 outline-none focus:border-[#0055FF] transition-colors"></div>
+                        </div>
+                        <div><label class="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Subject</label><textarea name="Subject" rows="4" required class="w-full bg-[#020202] border border-slate-800 text-white p-3 outline-none focus:border-[#0055FF] transition-colors"></textarea></div>
+                        <button type="submit" class="w-full bg-[#0055FF] hover:bg-white hover:text-black text-white font-bold uppercase tracking-widest py-4 mt-4 transition-colors">Submit Inquiry</button>
                     </form>
                 </div>
             </body>
